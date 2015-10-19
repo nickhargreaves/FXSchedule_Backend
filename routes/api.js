@@ -19,6 +19,14 @@ function isAuthenticated (req, res, next) {
     return res.redirect('/#login');
 };
 
+router.use(function(req, res, next){
+
+    if(!res.isAuthenticated()){
+        res.redirect("/#login")
+    }
+
+});
+
 //Register the authentication middleware
 router.use('/posts', isAuthenticated);
 
