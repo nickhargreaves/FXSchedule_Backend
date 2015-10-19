@@ -7,13 +7,12 @@ var session = require('express-session')
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//initialize mongoose schemas
+require('./models/models');
 var api = require('./routes/api');
 var authenticate = require('./routes/authenticate')(passport);
-var mongoose = require('mongoose');
-//connect to mongodb
-mongoose.connect("mongodb://localhost:27017/chirp-test")
-require('./models/models.js');
-
+var mongoose = require('mongoose');                         //add for Mongo support
+mongoose.connect('mongodb://localhost/test-chirp');              //connect to Mongo
 var app = express();
 
 // view engine setup
