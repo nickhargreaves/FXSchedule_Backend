@@ -21,7 +21,17 @@ module.exports = function(passport){
         },
         function(req, username, password, done) {
 
-            return done('we have not implemented this', false);
+            if(!user[username]){
+                return done('user not found', false);
+            }
+
+            if(isValidPassword(users[username], password)){
+                return done('invalid password', false);
+            }
+            //successfully signed in
+            console.log("successfully signed in!")
+
+            return done(null, users[username]);
         }
     ));
 
@@ -29,8 +39,16 @@ module.exports = function(passport){
                 passReqToCallback : true // allows us to pass back the entire request to the callback
             },
             function(req, username, password, done) {
-
-                return done('we have not implemented this', false);
+                //check if user already exists
+                if(users[username]){
+                    return done('username already taken', fales);
+                }
+                //add user to db
+                users[username] = {
+                    username: username,
+                    password: createHash(password)
+                }
+                return done(null, users[username]);
 
             })
     );
