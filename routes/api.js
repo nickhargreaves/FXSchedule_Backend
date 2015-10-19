@@ -23,6 +23,7 @@ router.use(function(req, res, next){
 
     //allow get without auth
     if(req.method === "GET"){
+        //continue to middleware or request handler
         return next();
     }
 
