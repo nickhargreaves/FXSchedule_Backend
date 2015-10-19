@@ -1,42 +1,57 @@
 var express = require('express');
 var router = express.Router();
 
+//Used for routes that must be authenticated.
+function isAuthenticated (req, res, next) {
+    // if user is authenticated in the session, call the next() to call the next request handler
+    // Passport adds this method to request object. A middleware is allowed to add properties to
+    // request and response objects
+
+    //allow all get request methods
+    if(req.method === "GET"){
+        return next();
+    }
+    if (req.isAuthenticated()){
+        return next();
+    }
+
+    // if the user is not authenticated then redirect him to the login page
+    return res.redirect('/#login');
+};
+
+//Register the authentication middleware
+router.use('/posts', isAuthenticated);
+
+//api for all posts
 router.route('/posts')
 
-    //returns all posts
-    .get(function(req, res){
-
-        //temporary solution
-        res.send({message: 'TODO return all posts'})
-    })
-
+    //create a new post
     .post(function(req, res){
 
-        //temporary solution
-        res.send({message: 'TODO Create a new post'})
-    });
+        //TODO create a new post in the database
+        res.send({message:"TODO create a new post in the database"});
+    })
 
-router.route('posts/:id')
-
-    //return specified post
     .get(function(req, res){
 
-        res.send({message: 'return post with id' + req.params.id})
-
+        //TODO get all the posts in the database
+        res.send({message:"TODO get all the posts in the database"});
     })
 
-    //update existing post
-    .put(function(req, res){
+//api for a specfic post
+router.route('/posts/:id')
 
-        res.send({message: 'TODO modify post with id' + req.params.id})
-
+    //create
+    .put(function(req,res){
+        return res.send({message:'TODO modify an existing post by using param ' + req.param.id});
     })
 
-    //update existing post
-    .delete(function(req, res){
-
-        res.send({message: 'TODO delete post with id' + req.params.id})
-
+    .get(function(req,res){
+        return res.send({message:'TODO get an existing post by using param ' + req.param.id});
     })
+
+    .delete(function(req,res){
+        return res.send({message:'TODO delete an existing post by using param ' + req.param.id})
+    });
 
 module.exports = router;
