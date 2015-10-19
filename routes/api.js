@@ -21,6 +21,11 @@ function isAuthenticated (req, res, next) {
 
 router.use(function(req, res, next){
 
+    //allow get without auth
+    if(req.method === "GET"){
+        return next();
+    }
+
     if(!res.isAuthenticated()){
         res.redirect("/#login")
     }
