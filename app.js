@@ -6,7 +6,7 @@ var passport = require('passport');
 var session = require('express-session')
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var index = require('./routes/index');
 //initialize mongoose schemas
 require('./models/models');
 var api = require('./routes/api');
@@ -37,6 +37,9 @@ initPassport(passport);
 
 app.use('/api', api);
 app.use('/auth', authenticate);
+
+/// Index
+app.use('/', index);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
